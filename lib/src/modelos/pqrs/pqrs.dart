@@ -1,11 +1,9 @@
-import 'package:super_market_pqrs/src/modelos/archivos/arch_adjunto.dart';
-
 class Pqrs {
   int number;
   DateTime date;
   String type;
   String comments;
-  List<Adjunto> attachments;
+  List<Object> attachments;
   String status;
   String substantiation;
 

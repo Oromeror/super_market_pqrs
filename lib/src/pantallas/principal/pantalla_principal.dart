@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:super_market_pqrs/src/pantallas/Bienvenida/bienvenida.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/form_ayuda.dart';
 import 'package:super_market_pqrs/src/pantallas/pqrs/pantalla_ayuda.dart';
 
 class PantallaPrincipal extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_entrada.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_tipo_id.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_tipo_pqr.dart';
-import 'package:super_market_pqrs/src/modelos/archivos/arch_adjunto.dart';
+import 'package:super_market_pqrs/src/pantallas/archivos/arch_adjunto.dart';
 import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/fondo.dart';
 
 class Cuerpo extends StatelessWidget {

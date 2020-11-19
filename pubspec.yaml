@@ -30,7 +30,7 @@ dependencies:
   font_awesome_flutter: ^8.10.0
   flutter_svg: ^0.19.1
   dropdownfield: ^1.0.3
-  file_picket: ^2.0.13
+  file_picker: ^2.0.13
 
 dev_dependencies:
   flutter_test:
