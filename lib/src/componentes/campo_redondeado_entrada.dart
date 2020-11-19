@@ -7,17 +7,19 @@ class CampoRedondeadoEntrada extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
+  final ValueChanged<String> validator;
   const CampoRedondeadoEntrada({
     Key key,
     this.hintText,
     this.icon = Icons.person,
     this.onChanged,
+    this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ContenedorTexto(
-      child: TextField(
+      child: TextFormField(
         onChanged: onChanged,
         cursorColor: kColorPrimario,
         decoration: InputDecoration(
@@ -28,6 +30,7 @@ class CampoRedondeadoEntrada extends StatelessWidget {
           hintText: hintText,
           border: InputBorder.none,
         ),
+        validator: validator,
       ),
     );
   }

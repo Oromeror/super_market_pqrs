@@ -22,14 +22,14 @@ class _HomeScreenState extends State<PantallaPrincipal> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.help_center,
+              Icons.help_sharp,
               size: 30.0,
             ),
             label: 'Ayuda',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.photo,
+              Icons.portrait_sharp,
               size: 30.0,
             ),
             label: 'Perfil',
