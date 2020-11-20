@@ -9,6 +9,7 @@ class TipoRadicado {
       TipoRadicado(1, 'Pregunta'),
       TipoRadicado(2, 'Queja'),
       TipoRadicado(3, 'Reclamo'),
+      TipoRadicado(4, 'Sugerencia')
     ];
   }
 }

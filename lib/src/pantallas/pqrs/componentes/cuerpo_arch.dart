@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ class CuerpoArchivo extends State<Adjunto> {
   bool _cargandoRuta = false;
   bool _selMultiple = false;
   FileType _tipoSeleccion = FileType.custom;
+  File archivo;
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -135,7 +138,7 @@ class CuerpoArchivo extends State<Adjunto> {
                           )
                         : _rutaDirectorio != null
                             ? ListTile(
-                                title: Text('Directory path'),
+                                title: Text('Directorio de rutas'),
                                 subtitle: Text(_rutaDirectorio),
                               )
                             : _rutas != null

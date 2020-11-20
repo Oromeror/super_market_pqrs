@@ -8,29 +8,16 @@ class CampoRedondeadoTipoPqr extends StatefulWidget {
   CampoRedondeadoTipoPqr({
     Key key,
     this.hintText,
-    this.icon = Icons.person,
+    this.icon = Icons.tab,
     this.onChanged,
   }) : super(key: key);
 
   final String hintText;
   final IconData icon;
-  final ValueChanged<String> onChanged;
+  final ValueChanged<TipoRadicado> onChanged;
 
-  Widget build(BuildContext context) {
-    return ContenedorTexto(
-      child: TextField(
-        onChanged: onChanged,
-        cursorColor: kColorPrimario,
-        decoration: InputDecoration(
-          icon: Icon(
-            icon,
-            color: kColorPrimario,
-          ),
-          hintText: hintText,
-          border: InputBorder.none,
-        ),
-      ),
-    );
+  Widget build(BuildContext context, DropDownState estado) {
+    return ContenedorTexto(child: estado.build(context));
   }
 
   @override
@@ -38,17 +25,17 @@ class CampoRedondeadoTipoPqr extends StatefulWidget {
 }
 
 class DropDownState extends State<CampoRedondeadoTipoPqr> {
-  List<TipoRadicado> _tipoRadicado = TipoRadicado.obtenerTipoRadicado();
-  List<DropdownMenuItem<TipoRadicado>> _tipoRadicadoDesplegado;
-  TipoRadicado _tipoRadicadoSeleccionado;
+  List<TipoRadicado> tipoRadicado = TipoRadicado.obtenerTipoRadicado();
+  List<DropdownMenuItem<TipoRadicado>> tipoRadicadoDesplegado;
+  TipoRadicado tipoRadicadoSeleccionado;
   final String hintText;
-
-  DropDownState({this.hintText}) : super();
+  final ValueChanged<TipoRadicado> onChanged;
+  DropDownState({this.hintText, this.onChanged}) : super();
 
   @override
   void initState() {
-    _tipoRadicadoDesplegado = construirItemsRadicados(_tipoRadicado);
-    _tipoRadicadoSeleccionado = _tipoRadicado[0];
+    tipoRadicadoDesplegado = construirItemsRadicados(tipoRadicado);
+    tipoRadicadoSeleccionado = tipoRadicado[0];
     super.initState();
   }
 
@@ -67,15 +54,16 @@ class DropDownState extends State<CampoRedondeadoTipoPqr> {
 
   alCambiarTipoRadicado(TipoRadicado tipoRadSel) {
     setState(() {
-      _tipoRadicadoSeleccionado = tipoRadSel;
+      print('hola');
+      tipoRadicadoSeleccionado = tipoRadSel;
     });
   }
 
-  Widget _construirCampoTipoRadicado() {
+  Widget construirCampoTipoRadicado() {
     return DropdownButton(
       hint: Text('Tipo de radicado'),
-      value: _tipoRadicadoSeleccionado,
-      items: _tipoRadicadoDesplegado,
+      value: tipoRadicadoSeleccionado,
+      items: tipoRadicadoDesplegado,
       onChanged: alCambiarTipoRadicado,
     );
   }
@@ -96,7 +84,7 @@ class DropDownState extends State<CampoRedondeadoTipoPqr> {
   @override
   Widget build(BuildContext context) {
     return ContenedorTexto(
-      child: _construirCampoTipoRadicado(),
+      child: construirCampoTipoRadicado(),
     );
   }
 }
