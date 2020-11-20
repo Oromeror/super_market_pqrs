@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:super_market_pqrs/constantes.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_entrada.dart';
-import 'package:super_market_pqrs/src/componentes/campo_redondeado_tipo_id.dart';
-import 'package:super_market_pqrs/src/componentes/campo_redondeado_tipo_pqr.dart';
+import 'package:super_market_pqrs/src/modelos/usuarios/identificacion.dart';
+import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/campo_redondeado_tipo_id.dart';
+import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/campo_redondeado_tipo_pqr.dart';
 import 'package:super_market_pqrs/src/modelos/pqrs/tipo_radicado.dart';
 import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/arch_adjunto.dart';
 import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/fondo.dart';
@@ -21,6 +22,7 @@ class _AyudaEstado extends State<CuerpoPqrs> {
   final _llaveFormulario = GlobalKey<FormState>();
 
   TipoRadicado _tipoRadicado;
+  Identificacion _tipoId;
   String _tipoIdentificacion;
   String _numeroIdentificacion;
   String _nombreCompleto;
@@ -47,15 +49,14 @@ class _AyudaEstado extends State<CuerpoPqrs> {
               ),
               CampoRedondeadoTipoPqr(
                 hintText: 'Tipo de radicado',
-                onChanged: (value) {
-                  print('aquí');
-                  print(value);
+                onChanged: (valor) {
+                  _tipoRadicado = valor;
                 },
               ),
               CampoRedondeadoIdentificacion(
                 hintText: 'Tipo de indentificación',
-                onChanged: (String valor) {
-                  _tipoIdentificacion = valor;
+                onChanged: (valor) {
+                  _tipoId = valor;
                 },
               ),
               CampoRedondeadoEntrada(
@@ -141,8 +142,8 @@ class _AyudaEstado extends State<CuerpoPqrs> {
                     return;
                   }
                   _llaveFormulario.currentState.save();
-                  print(_tipoRadicado);
-                  print(_tipoIdentificacion);
+                  print(_tipoRadicado.nombre);
+                  print(_tipoId.nombre);
                   print(_numeroIdentificacion);
                   print(_nombreCompleto);
                   print(_correoElectronico);

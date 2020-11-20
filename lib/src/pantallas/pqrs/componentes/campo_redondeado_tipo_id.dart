@@ -1,43 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:super_market_pqrs/constantes.dart';
 
-import 'package:super_market_pqrs/src/componentes/contenedor_texto.dart';
 import 'package:super_market_pqrs/src/modelos/usuarios/identificacion.dart';
 
 class CampoRedondeadoIdentificacion extends StatefulWidget {
+  final String hintText;
+  final IconData icon;
+  final ValueChanged<Identificacion> onChanged;
+
   CampoRedondeadoIdentificacion({
     Key key,
     this.hintText,
-    this.icon = Icons.person,
+    this.icon = Icons.tab,
     this.onChanged,
   }) : super(key: key);
 
-  final String hintText;
-  final IconData icon;
-  final ValueChanged<String> onChanged;
-
-  Widget build(BuildContext context) {
-    return ContenedorTexto(
-      child: TextField(
-        onChanged: onChanged,
-        cursorColor: kColorPrimario,
-        decoration: InputDecoration(
-          icon: Icon(
-            icon,
-            color: kColorPrimario,
-          ),
-          hintText: hintText,
-          border: InputBorder.none,
-        ),
-      ),
-    );
-  }
-
   @override
-  DropDownState createState() => DropDownState();
+  EstadoDesplegableTipoId createState() => EstadoDesplegableTipoId();
 }
 
-class DropDownState extends State<CampoRedondeadoIdentificacion> {
+class EstadoDesplegableTipoId extends State<CampoRedondeadoIdentificacion> {
   List<Identificacion> _tipoIdentificacion =
       Identificacion.obtenerIdentificacion();
   List<DropdownMenuItem<Identificacion>> _identificacionDesplegada;
@@ -72,17 +54,26 @@ class DropDownState extends State<CampoRedondeadoIdentificacion> {
   }
 
   Widget _construirCampoTipoIdentificacion() {
-    return DropdownButton(
-      value: _identificacionSeleccionada,
-      items: _identificacionDesplegada,
-      onChanged: alCambiarIdentificacion,
+    Size tamanho = MediaQuery.of(context).size;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      width: tamanho.width * 0.8,
+      decoration: BoxDecoration(
+        color: kColorSuavePrimario,
+        borderRadius: BorderRadius.circular(29),
+      ),
+      child: DropdownButton(
+        hint: Text(widget.hintText),
+        value: this._identificacionSeleccionada,
+        items: this._identificacionDesplegada,
+        onChanged: widget.onChanged,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return ContenedorTexto(
-      child: _construirCampoTipoIdentificacion(),
-    );
+    return _construirCampoTipoIdentificacion();
   }
 }
