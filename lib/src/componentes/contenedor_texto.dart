@@ -13,8 +13,8 @@ class ContenedorTexto extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: EdgeInsets.symmetric(vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       width: size.width * 0.8,
       decoration: BoxDecoration(
         color: kColorSuavePrimario,

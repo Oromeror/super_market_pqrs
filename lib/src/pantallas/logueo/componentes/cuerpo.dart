@@ -2,20 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:super_market_pqrs/constantes.dart';
+import 'package:super_market_pqrs/src/bloc/login_bloc.dart';
+import 'package:super_market_pqrs/src/bloc/provider.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_contrasenha.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_entrada.dart';
 import 'package:super_market_pqrs/src/componentes/ya_tengo_una_cuenta_verificada.dart';
 import 'package:super_market_pqrs/src/pantallas/logueo/componentes/fondo.dart';
 import 'package:super_market_pqrs/src/pantallas/registro/pantalla_registro.dart';
+import 'package:super_market_pqrs/src/proveedores/usuario_proveedor.dart';
 
 class Cuerpo extends StatelessWidget {
-  const Cuerpo({
+  final usuarioProveedor = new UsuarioProveedor();
+  final ValueChanged<String> onChangedId;
+  final ValueChanged<String> onChangedPass;
+
+  Cuerpo({
     Key key,
+    this.onChangedId,
+    this.onChangedPass,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //final bloc = Provider.of(context);
     Size size = MediaQuery.of(context).size;
     return Fondo(
       child: SingleChildScrollView(
@@ -37,16 +47,19 @@ class Cuerpo extends StatelessWidget {
             ),
             SizedBox(height: size.height * 0.03),
             CampoRedondeadoEntrada(
-              hintText: "Correo:",
-              onChanged: (value) {},
+              hintText: "Identificación:",
+              onChanged: onChangedId,
             ),
             CampoRedondeadoContrasenha(
-              onChanged: (value) {},
+              onChanged: onChangedPass,
             ),
             BotonRedondeado(
-              text: "INICIAR SESIÓN",
-              press: () {},
-            ),
+                text: "INICIAR SESIÓN",
+                press: () {
+                  // print(this.onChangedId.toString());
+                  // print(this.onChangedPass.toString());
+                  // return _iniciarSesion(bloc, context);
+                }),
             SizedBox(height: size.height * 0.03),
             YaTengoUnaCuentaVerificada(
               press: () {
@@ -65,4 +78,8 @@ class Cuerpo extends StatelessWidget {
       ),
     );
   }
+
+  // _iniciarSesion(LoginBloc bloc, BuildContext context) {
+  //   usuarioProveedor.login(bloc.identificacion, bloc.password);
+  // }
 }
