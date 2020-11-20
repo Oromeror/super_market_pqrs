@@ -1,13 +1,15 @@
+import 'dart:io' as Io;
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:super_market_pqrs/constantes.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/arch_adjunto.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/fondo.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/arch_adjunto.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/fondo.dart';
 
 class CuerpoArchivo extends State<Adjunto> {
   final GlobalKey<ScaffoldState> _claveScaffold = GlobalKey<ScaffoldState>();
@@ -19,6 +21,8 @@ class CuerpoArchivo extends State<Adjunto> {
   bool _selMultiple = false;
   FileType _tipoSeleccion = FileType.custom;
   File archivo;
+  var _bytes;
+  String _img64;
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -35,11 +39,10 @@ class CuerpoArchivo extends State<Adjunto> {
         type: _tipoSeleccion,
         allowMultiple: _selMultiple,
         allowedExtensions: [_extension],
-        // allowedExtensions: (_extension?.isNotEmpty ?? false)
-        //     ? _extension?.replaceAll(' ', '')?.split(',')
-        //     : null,
       ))
           ?.files;
+      print(_nombreArchivo);
+      cargarArchivo(_nombreArchivo);
     } on PlatformException catch (e) {
       print("Unsupported operation" + e.toString());
     } catch (ex) {
@@ -70,6 +73,14 @@ class CuerpoArchivo extends State<Adjunto> {
         ),
       );
     });
+  }
+
+  cargarArchivo(String nombreArch) {
+    print('LA LA LA');
+    _bytes = Io.File(nombreArch).readAsBytesSync();
+    _img64 = base64Encode(this._bytes);
+    print('LA LA LA');
+    print(this._img64.substring(0, 100));
   }
 
   // void _seleccionarCarpeta() {

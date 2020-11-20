@@ -25,6 +25,8 @@ class EstadoDesplegableTipoPqrs extends State<CampoRedondeadoTipoPqr> {
   List<DropdownMenuItem<TipoRadicado>> tipoRadicadoDesplegado;
   TipoRadicado tipoRadicadoSeleccionado;
 
+  AnimationController controller;
+
   @override
   void initState() {
     tipoRadicadoDesplegado = construirItemsRadicados(tipoRadicado);
@@ -45,11 +47,12 @@ class EstadoDesplegableTipoPqrs extends State<CampoRedondeadoTipoPqr> {
     return items;
   }
 
-  // alCambiarTipoRadicado(TipoRadicado tipoRadSel) {
-  //   setState(() {
-  //     tipoRadicadoSeleccionado = tipoRadSel;
-  //   });
-  // }
+  alCambiarTipoRadicado(TipoRadicado tipoRadSel) async {
+    this.widget.onChanged(tipoRadSel);
+    setState(() {
+      tipoRadicadoSeleccionado = tipoRadSel;
+    });
+  }
 
   Widget construirCampoTipoRadicado() {
     Size tamanho = MediaQuery.of(context).size;
@@ -62,22 +65,14 @@ class EstadoDesplegableTipoPqrs extends State<CampoRedondeadoTipoPqr> {
         borderRadius: BorderRadius.circular(29),
       ),
       child: DropdownButton(
+        isExpanded: true,
         hint: Text(widget.hintText),
         value: this.tipoRadicadoSeleccionado,
         items: this.tipoRadicadoDesplegado,
-        onChanged: widget.onChanged,
+        onChanged: alCambiarTipoRadicado,
       ),
     );
   }
-
-  // Widget construirCampoTipoRadicadoPrueba() {
-  //   return DropDownField(
-  //     enabled: true,
-  //     required: true,
-  //     value: this.tipoRadicadoSeleccionado.toString(),
-  //     items: ,
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {

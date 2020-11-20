@@ -47,7 +47,8 @@ class EstadoDesplegableTipoId extends State<CampoRedondeadoIdentificacion> {
     return items;
   }
 
-  alCambiarIdentificacion(Identificacion identificacionSel) {
+  alCambiarIdentificacion(Identificacion identificacionSel) async {
+    this.widget.onChanged(identificacionSel);
     setState(() {
       _identificacionSeleccionada = identificacionSel;
     });
@@ -64,10 +65,11 @@ class EstadoDesplegableTipoId extends State<CampoRedondeadoIdentificacion> {
         borderRadius: BorderRadius.circular(29),
       ),
       child: DropdownButton(
+        isExpanded: true,
         hint: Text(widget.hintText),
         value: this._identificacionSeleccionada,
         items: this._identificacionDesplegada,
-        onChanged: widget.onChanged,
+        onChanged: alCambiarIdentificacion,
       ),
     );
   }

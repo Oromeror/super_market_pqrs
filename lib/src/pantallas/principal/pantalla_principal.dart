@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:super_market_pqrs/src/pantallas/Bienvenida/bienvenida.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/pantalla_ayuda.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/pantalla_ayuda.dart';
+import 'package:super_market_pqrs/src/pantallas/pqrs/pqrs_usuario.dart';
 
 class PantallaPrincipal extends StatefulWidget {
   @override
@@ -29,6 +30,13 @@ class _HomeScreenState extends State<PantallaPrincipal> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
+              Icons.list_sharp,
+              size: 30.0,
+            ),
+            label: 'Mis Pqrs',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
               Icons.portrait_sharp,
               size: 30.0,
             ),
@@ -45,6 +53,8 @@ class _HomeScreenState extends State<PantallaPrincipal> {
       case 0:
         return PantallaAyuda();
       case 1:
+        return PqrsUsuario();
+      case 2:
         return Bienvenida();
     }
 

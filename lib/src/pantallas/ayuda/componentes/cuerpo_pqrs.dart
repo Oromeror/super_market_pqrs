@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:super_market_pqrs/constantes.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_entrada.dart';
-import 'package:super_market_pqrs/src/modelos/usuarios/identificacion.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/campo_redondeado_tipo_id.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/campo_redondeado_tipo_pqr.dart';
 import 'package:super_market_pqrs/src/modelos/pqrs/tipo_radicado.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/arch_adjunto.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/fondo.dart';
+import 'package:super_market_pqrs/src/modelos/usuarios/identificacion.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/arch_adjunto.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/campo_redondeado_tipo_id.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/campo_redondeado_tipo_pqr.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/fondo.dart';
 
 class CuerpoPqrs extends StatefulWidget {
   CuerpoPqrs({Key key}) : super(key: key);
@@ -23,7 +23,6 @@ class _AyudaEstado extends State<CuerpoPqrs> {
 
   TipoRadicado _tipoRadicado;
   Identificacion _tipoId;
-  String _tipoIdentificacion;
   String _numeroIdentificacion;
   String _nombreCompleto;
   String _correoElectronico;
@@ -40,8 +39,9 @@ class _AyudaEstado extends State<CuerpoPqrs> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: size.height * 0.05),
               Text(
-                "REALIZAR PQR",
+                "REALIZA UNA PQRS",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: kColorPrimario,
