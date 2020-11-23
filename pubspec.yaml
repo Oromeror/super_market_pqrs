@@ -33,6 +33,7 @@ dependencies:
   file_picker: ^2.0.13
   rxdart: ^0.22.0
   http:
+  mime_type:
 
 dev_dependencies:
   flutter_test:

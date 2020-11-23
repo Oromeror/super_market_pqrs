@@ -67,4 +67,13 @@ class Validadores {
       sink.addError('Seleccion el tipo de identificación');
     }
   });
+
+  final validarPassword = StreamTransformer<String, String>.fromHandlers(
+      handleData: (usernames, sink) {
+    if (usernames.isNotEmpty) {
+      sink.add(usernames);
+    } else {
+      sink.addError('Ingrese una contraseña.');
+    }
+  });
 }

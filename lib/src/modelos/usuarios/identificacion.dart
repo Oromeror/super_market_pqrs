@@ -6,10 +6,9 @@ class Identificacion {
 
   static List<Identificacion> obtenerIdentificacion() {
     return <Identificacion>[
-      Identificacion(1, 'Documento de identidad'),
-      Identificacion(2, 'Cédula'),
-      Identificacion(3, 'Cédulta de extranjería'),
-      Identificacion(4, 'Pasaporte'),
+      Identificacion(1, 'CC'),
+      Identificacion(2, 'C. Extranjeria'),
+      Identificacion(3, 'Pasaporte')
     ];
   }
 }

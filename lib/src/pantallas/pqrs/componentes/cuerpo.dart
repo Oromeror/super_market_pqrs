@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_market_pqrs/constantes.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/pqrs_usuario.dart';
+import 'package:super_market_pqrs/src/pantallas/pqrs/componentes/pqrs_usuario.dart';
 
 import 'carrusel_preguntas.dart';
 
 class Cuerpo extends State<PqrsUsuario> {
   int _indiceSeleccionado = 0;
-  int _opcionActual = 0;
+  //int _opcionActual = 0;
 
   List<IconData> _icons = [
     FontAwesomeIcons.handPaper,

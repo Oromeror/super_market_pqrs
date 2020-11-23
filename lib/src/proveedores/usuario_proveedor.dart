@@ -1,21 +1,31 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class UsuarioProveedor {
-  final String _token = 'c5444adb729b9819ed91d3a7dc4b9117af9e48ac'; // Clave
+  //final String _token = 'c5444adb729b9819ed91d3a7dc4b9117af9e48ac'; // Clave
+  final String _url = 'https://pqrsbosque.com';
 
   Future<Map<String, dynamic>> login(
       String identificacion, String password) async {
-    final authData = {
+    final url = '$_url/cliente/login/';
+    final loginData = {
       'identificacion': identificacion,
       'password': password,
       'returnSecureToken': true
     };
 
-    var resp = await http.post('http://localhost:8000/cliente/login/',
-        headers: {"Content-Type": "application/json"},
-        body: json.encode(authData));
+    var resp = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(loginData),
+    );
+
+    // if (resp.statusCode == 200) {
+    //   print(resp.body);
+    // } else {
+    //   print('A network error occurred');
+    // }
+
     Map<String, dynamic> decodedResp = json.decode(resp.body);
     print(decodedResp);
 
@@ -26,6 +36,7 @@ class UsuarioProveedor {
     }
   }
 
+  // ignore: missing_return
   Future<Map<String, dynamic>> nuevoUsuario(
       String usernames,
       String firstName,
@@ -34,7 +45,8 @@ class UsuarioProveedor {
       String telefono,
       String identificacion,
       String tipoIdentificacion) async {
-    final authData = {
+    final url = '$_url/cliente/crear/';
+    final newUserData = {
       'usernames': usernames,
       'first_name': firstName,
       'last_name': lastName,
@@ -45,16 +57,23 @@ class UsuarioProveedor {
       'returnSecureToken': true
     };
 
-    var resp = await http.post('http://localhost:8000/cliente/crear/',
+    var resp = await http.post(url,
         headers: {"Content-Type": "application/json"},
-        body: json.encode(authData));
+        body: json.encode(newUserData));
+
+    // if (resp.statusCode == 200) {
+    //   print(resp.body);
+    // } else {
+    //   print('A network error occurred');
+    // }
+
     Map<String, dynamic> decodedResp = json.decode(resp.body);
     print(decodedResp);
 
-    if (decodedResp.containsKey('token')) {
-      return {'ok': true, 'token': decodedResp['token']};
-    } else {
-      return {'ok': false, 'mensaje': decodedResp['error']['message']};
-    }
+    // if (decodedResp.containsValue('')) {
+    //   return {'ok': true, 'token': decodedResp['token']};
+    // } else {
+    //   return {'ok': false, 'mensaje': decodedResp['error']['message']};
+    // }
   }
 }

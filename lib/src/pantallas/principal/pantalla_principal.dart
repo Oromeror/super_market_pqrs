@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:super_market_pqrs/src/pantallas/Bienvenida/bienvenida.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/pantalla_ayuda.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/pqrs_usuario.dart';
 
 class PantallaPrincipal extends StatefulWidget {
   @override
@@ -23,24 +22,17 @@ class _HomeScreenState extends State<PantallaPrincipal> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.help_sharp,
-              size: 30.0,
-            ),
-            label: 'Ayuda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list_sharp,
-              size: 30.0,
-            ),
-            label: 'Mis Pqrs',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
               Icons.portrait_sharp,
               size: 30.0,
             ),
             label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.help_sharp,
+              size: 30.0,
+            ),
+            label: 'Ayuda',
           ),
         ],
         type: BottomNavigationBarType.fixed,
@@ -51,11 +43,9 @@ class _HomeScreenState extends State<PantallaPrincipal> {
   Widget _obtenerCuerpo(int indice) {
     switch (indice) {
       case 0:
-        return PantallaAyuda();
-      case 1:
-        return PqrsUsuario();
-      case 2:
         return Bienvenida();
+      case 1:
+        return PantallaAyuda();
     }
 
     return Center(

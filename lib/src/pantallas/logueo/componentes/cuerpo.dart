@@ -14,72 +14,118 @@ import 'package:super_market_pqrs/src/proveedores/usuario_proveedor.dart';
 
 class Cuerpo extends StatelessWidget {
   final usuarioProveedor = new UsuarioProveedor();
-  final ValueChanged<String> onChangedId;
-  final ValueChanged<String> onChangedPass;
 
   Cuerpo({
     Key key,
-    this.onChangedId,
-    this.onChangedPass,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //final bloc = Provider.of(context);
-    Size size = MediaQuery.of(context).size;
-    return Fondo(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "INICIAR SESIÓN",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: kColorPrimario,
-                fontSize: 25,
-              ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "assets/icons/login.svg",
-              height: size.height * 0.35,
-            ),
-            SizedBox(height: size.height * 0.03),
-            CampoRedondeadoEntrada(
-              hintText: "Identificación:",
-              onChanged: onChangedId,
-            ),
-            CampoRedondeadoContrasenha(
-              onChanged: onChangedPass,
-            ),
-            BotonRedondeado(
-                text: "INICIAR SESIÓN",
-                press: () {
-                  // print(this.onChangedId.toString());
-                  // print(this.onChangedPass.toString());
-                  // return _iniciarSesion(bloc, context);
-                }),
-            SizedBox(height: size.height * 0.03),
-            YaTengoUnaCuentaVerificada(
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return PantallaRegistro();
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[_crearFondo(context)],
       ),
     );
   }
 
-  // _iniciarSesion(LoginBloc bloc, BuildContext context) {
-  //   usuarioProveedor.login(bloc.identificacion, bloc.password);
-  // }
+  Widget _crearFondo(BuildContext context) {
+    return Fondo(child: _crearLoginForm(context));
+  }
+
+  Widget _crearLoginForm(BuildContext context) {
+    final bloc = Provider.of(context);
+    Size size = MediaQuery.of(context).size;
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "INICIAR SESIÓN",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: kColorPrimario,
+              fontSize: 25,
+            ),
+          ),
+          SizedBox(height: size.height * 0.03),
+          SvgPicture.asset(
+            "assets/icons/login.svg",
+            height: size.height * 0.35,
+          ),
+          SizedBox(height: size.height * 0.03),
+          _crearIdentificacion(bloc),
+          _crearPassword(bloc),
+          _crearBoton(bloc),
+          SizedBox(height: size.height * 0.03),
+          YaTengoUnaCuentaVerificada(
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return PantallaRegistro();
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _crearIdentificacion(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.identificacionStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        print(snapshot.data);
+        return Container(
+          child: CampoRedondeadoEntrada(
+            icon: Icons.text_fields,
+            hintText: "Identificación:",
+            validator: (String valor) {
+              if (valor.isEmpty) return 'Número de identificación requerido.';
+            },
+            onChanged: (value) => bloc.changeIdentificacion(value),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _crearPassword(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.passwordStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          child: CampoRedondeadoContrasenha(
+            onChanged: (value) => bloc.changePassword(value),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _crearBoton(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.loginFormValidStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          child: BotonRedondeado(
+              text: "INICIAR SESIÓN",
+              press: snapshot.hasData ? () => _login(bloc, context) : null),
+        );
+      },
+    );
+  }
+
+  _login(LoginBloc bloc, BuildContext context) {
+    usuarioProveedor.login(bloc.identificacion, bloc.password);
+    Navigator.pushReplacementNamed(context, 'logued');
+    print('================');
+    print('Identificación: ${bloc.identificacion}');
+    print('Password: ${bloc.password}');
+    print('================');
+  }
 }

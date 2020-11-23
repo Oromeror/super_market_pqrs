@@ -9,25 +9,49 @@ class LoginBloc with Validadores {
   final _emailController = BehaviorSubject<String>();
   final _telefonoController = BehaviorSubject<String>();
   final _identificacionController = BehaviorSubject<String>();
-  final _tipoIdentificacioControllern = BehaviorSubject<String>();
+  final _tipoIdentificacioController = BehaviorSubject<String>();
+  final _tipoRadicadoController = BehaviorSubject<String>();
+  final _comentarioController = BehaviorSubject<String>();
+  final _archivoAdjunto = BehaviorSubject<String>();
+  final _passwordController = BehaviorSubject<String>();
 
   // Recuperar los datos del Stream
-  Stream<String> get usernamesStream =>
-      _usernamesController.stream.transform(validarUsernames);
-  Stream<String> get firstNameStream =>
-      _firstNameController.stream.transform(validarFirstName);
-  Stream<String> get lastNameStream =>
-      _lastNameController.stream.transform(validarLastName);
+  // Stream<String> get usernamesStream      => _usernamesController.stream.transform(validarUsernames);
+  // Stream<String> get firstNameStream      => _firstNameController.stream.transform(validarFirstName);
+  // Stream<String> get lastNameStream       => _lastNameController.stream.transform(validarLastName);
+  // Stream<String> get emailStream          => _emailController.stream.transform(validarEmail);
+  // Stream<String> get telefonoStream       => _telefonoController.stream.transform(validarTelefono);
+  // Stream<String> get identificacionStream => _identificacionController.stream.transform(validarIdentificacion);
+  // Stream<String> get tipoIdStream         => _tipoIdentificacioControllern.stream.transform(validarTipoId);
+
+  Stream<String> get usernamesStream => _usernamesController.stream;
+  Stream<String> get firstNameStream => _firstNameController.stream;
+  Stream<String> get lastNameStream => _lastNameController.stream;
   Stream<String> get emailStream =>
       _emailController.stream.transform(validarEmail);
-  Stream<String> get telefonoStream =>
-      _telefonoController.stream.transform(validarTelefono);
-  Stream<String> get identificacionStream =>
-      _identificacionController.stream.transform(validarIdentificacion);
-  Stream<String> get tipoIdStream =>
-      _tipoIdentificacioControllern.stream.transform(validarTipoId);
+  Stream<String> get telefonoStream => _telefonoController.stream;
+  Stream<String> get identificacionStream => _identificacionController.stream;
+  Stream<String> get tipoIdStream => _tipoIdentificacioController.stream;
+  Stream<String> get tipoRadStream => _tipoRadicadoController.stream;
+  Stream<String> get passwordStream =>
+      _passwordController.stream.transform(validarPassword);
+  Stream<String> get comentarioStream => _comentarioController.stream;
+  Stream<String> get archAdjuntoStream => _comentarioController.stream;
 
-  Stream<bool> get formValidStream => Observable.combineLatest7(
+  Stream<bool> get loginFormValidStream => Observable.combineLatest2(
+      identificacionStream, passwordStream, (a, b) => true);
+
+  Stream<bool> get registrarFormValidStream => Observable.combineLatest7(
+      usernamesStream,
+      firstNameStream,
+      lastNameStream,
+      emailStream,
+      telefonoStream,
+      identificacionStream,
+      tipoIdStream,
+      (a, b, c, d, e, f, g) => true);
+
+  Stream<bool> get helpFormValidStream => Observable.combineLatest7(
       usernamesStream,
       firstNameStream,
       lastNameStream,
@@ -46,7 +70,11 @@ class LoginBloc with Validadores {
   Function(String) get changeIdentificacion =>
       _identificacionController.sink.add;
   Function(String) get changeTipoIdentificacion =>
-      _tipoIdentificacioControllern.sink.add;
+      _tipoIdentificacioController.sink.add;
+  Function(String) get changeTipoRadicado => _tipoRadicadoController.sink.add;
+  Function(String) get changePassword => _passwordController.sink.add;
+  Function(String) get changeArchAdjunto => _archivoAdjunto.sink.add;
+  Function(String) get changeComentario => _comentarioController.sink.add;
 
   // Obtener el último valor ingresado a los streams
   String get usernames => _usernamesController.value;
@@ -55,9 +83,11 @@ class LoginBloc with Validadores {
   String get email => _emailController.value;
   String get telefono => _telefonoController.value;
   String get identificacion => _identificacionController.value;
-  String get tipoIdentificacion => _tipoIdentificacioControllern.value;
-
-  String get password => null;
+  String get tipoIdentificacion => _tipoIdentificacioController.value;
+  String get tipoRadicado => _tipoRadicadoController.value;
+  String get password => _passwordController.value;
+  String get archAdjunto => _archivoAdjunto.value;
+  String get comentario => _comentarioController.value;
 
   dispose() {
     _usernamesController?.close();
@@ -66,6 +96,10 @@ class LoginBloc with Validadores {
     _emailController.close();
     _telefonoController.close();
     _identificacionController.close();
-    _tipoIdentificacioControllern.close();
+    _tipoIdentificacioController.close();
+    _tipoRadicadoController.close();
+    _comentarioController.close();
+    _archivoAdjunto.close();
+    _passwordController.close();
   }
 }

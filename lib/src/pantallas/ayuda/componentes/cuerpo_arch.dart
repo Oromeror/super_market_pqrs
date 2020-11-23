@@ -1,6 +1,6 @@
-import 'dart:io' as Io;
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
+import 'dart:io' as Io;
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -10,9 +10,11 @@ import 'package:super_market_pqrs/constantes.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/arch_adjunto.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/fondo.dart';
+import 'package:super_market_pqrs/src/pantallas/ayuda/pantalla_ayuda.dart';
 
 class CuerpoArchivo extends State<Adjunto> {
   final GlobalKey<ScaffoldState> _claveScaffold = GlobalKey<ScaffoldState>();
+  VoidCallback onTap;
   String _nombreArchivo;
   List<PlatformFile> _rutas;
   String _rutaDirectorio;
@@ -21,8 +23,8 @@ class CuerpoArchivo extends State<Adjunto> {
   bool _selMultiple = false;
   FileType _tipoSeleccion = FileType.custom;
   File archivo;
-  var _bytes;
-  String _img64;
+  List<int> _bytes;
+  String _pdf64;
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -30,64 +32,6 @@ class CuerpoArchivo extends State<Adjunto> {
     super.initState();
     _controller.addListener(() => _extension = _controller.text);
   }
-
-  void _abrirExploradorDeArchivos() async {
-    setState(() => _cargandoRuta = true);
-    try {
-      _rutaDirectorio = null;
-      _rutas = (await FilePicker.platform.pickFiles(
-        type: _tipoSeleccion,
-        allowMultiple: _selMultiple,
-        allowedExtensions: [_extension],
-      ))
-          ?.files;
-      print(_nombreArchivo);
-      cargarArchivo(_nombreArchivo);
-    } on PlatformException catch (e) {
-      print("Unsupported operation" + e.toString());
-    } catch (ex) {
-      print(ex);
-    }
-    if (!mounted) return;
-    setState(() {
-      _cargandoRuta = false;
-      _nombreArchivo =
-          _rutas != null ? _rutas.map((e) => e.name).toString() : '...';
-    });
-  }
-
-  void _borrarArchivosEnCache() {
-    FilePicker.platform.clearTemporaryFiles().then((result) {
-      _claveScaffold.currentState.showSnackBar(
-        SnackBar(
-          backgroundColor: result ? kColorPrimario : Colors.red,
-          content: Text(
-            (result
-                ? 'Archivos temporales eliminados.'
-                : 'Error al eliminar archivos temporales'),
-            style: TextStyle(
-              color: kColorSuavePrimario,
-              fontSize: 15,
-            ),
-          ),
-        ),
-      );
-    });
-  }
-
-  cargarArchivo(String nombreArch) {
-    print('LA LA LA');
-    _bytes = Io.File(nombreArch).readAsBytesSync();
-    _img64 = base64Encode(this._bytes);
-    print('LA LA LA');
-    print(this._img64.substring(0, 100));
-  }
-
-  // void _seleccionarCarpeta() {
-  //   FilePicker.platform.getDirectoryPath().then((value) {
-  //     setState(() => _rutaDirectorio = value);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,16 +60,16 @@ class CuerpoArchivo extends State<Adjunto> {
                     "assets/icons/file_searching.svg",
                     height: tamanho.height * 0.20,
                   ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints.tightFor(width: 350.0),
-                    child: SwitchListTile.adaptive(
-                      title: Text('Seleccionar varios archivos',
-                          textAlign: TextAlign.left),
-                      onChanged: (bool value) =>
-                          setState(() => _selMultiple = value),
-                      value: _selMultiple,
-                    ),
-                  ),
+                  // ConstrainedBox(
+                  //   constraints: const BoxConstraints.tightFor(width: 350.0),
+                  //   child: SwitchListTile.adaptive(
+                  //     title: Text('Seleccionar varios archivos',
+                  //         textAlign: TextAlign.left),
+                  //     onChanged: (bool value) =>
+                  //         setState(() => _selMultiple = value),
+                  //     value: _selMultiple,
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Column(
@@ -137,6 +81,10 @@ class CuerpoArchivo extends State<Adjunto> {
                         BotonRedondeado(
                           text: 'Borrar archivos temporales',
                           press: () => _borrarArchivosEnCache(),
+                        ),
+                        BotonRedondeado(
+                          text: 'Guardar',
+                          press: () => mostrarAlertDialog(context, 'Guardado.'),
                         ),
                       ],
                     ),
@@ -199,6 +147,104 @@ class CuerpoArchivo extends State<Adjunto> {
           )),
         ),
       ),
+    );
+  }
+
+  void _abrirExploradorDeArchivos() async {
+    setState(() => _cargandoRuta = true);
+    try {
+      _rutaDirectorio = null;
+      _rutas = (await FilePicker.platform.pickFiles(
+        type: _tipoSeleccion,
+        allowMultiple: _selMultiple,
+        allowedExtensions: [_extension],
+      ))
+          ?.files;
+      _codificarArchivo();
+    } on PlatformException catch (e) {
+      print("Operación no soportada." + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    if (!mounted) return;
+    setState(() {
+      _cargandoRuta = false;
+      _nombreArchivo =
+          _rutas != null ? _rutas.map((e) => e.name).toString() : '...';
+    });
+  }
+
+  void _borrarArchivosEnCache() {
+    FilePicker.platform.clearTemporaryFiles().then((result) {
+      // ignore: deprecated_member_use
+      _claveScaffold.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: result ? kColorPrimario : Colors.red,
+          content: Text(
+            (result
+                ? 'Archivos temporales eliminados.'
+                : 'Error al eliminar archivos temporales'),
+            style: TextStyle(
+              color: kColorSuavePrimario,
+              fontSize: 15,
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  _codificarArchivo() {
+    print('Nombre archivo: ' + _nombreArchivo);
+    _bytes = Io.File(_nombreArchivo).readAsBytesSync();
+    _pdf64 = base64Encode(this._bytes);
+    print(this._pdf64.substring(0, 100));
+    _guardarArchivo(_pdf64);
+  }
+
+  // void _seleccionarCarpeta() {
+  //   FilePicker.platform.getDirectoryPath().then((value) {
+  //     setState(() => _rutaDirectorio = value);
+  //   });
+  // }
+
+  _guardarArchivo(String pdf64) {
+    _enviarArchivo();
+  }
+
+  String get pdf64 => _pdf64;
+
+  _enviarArchivo() {
+    print(_pdf64);
+    Navigator.pushReplacementNamed(context, 'pqrs');
+  }
+
+  mostrarAlertDialog(BuildContext context, String mensaje) {
+    // Botones
+    Widget okButton = FlatButton(
+      child: Text("OK", style: TextStyle(color: kColorPrimario, fontSize: 15)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PantallaAyuda()),
+        );
+      },
+    );
+
+    // AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Notificación",
+          style: TextStyle(color: kColorPrimario, fontSize: 15)),
+      actions: [okButton],
+      content: Text(mensaje),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

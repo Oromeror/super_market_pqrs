@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'componentes/cuerpo.dart';
+import 'cuerpo.dart';
 
 class PqrsUsuario extends StatefulWidget {
   @override

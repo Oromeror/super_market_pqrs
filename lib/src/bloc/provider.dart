@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_market_pqrs/src/bloc/login_bloc.dart';
+export 'package:super_market_pqrs/src/bloc/login_bloc.dart';
 
 class Provider extends InheritedWidget {
   static Provider _instancia;
@@ -23,7 +24,6 @@ class Provider extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static LoginBloc of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(Provider) as Provider)
-        .loginBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
   }
 }
