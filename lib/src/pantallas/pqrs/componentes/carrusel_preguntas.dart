@@ -94,6 +94,24 @@ class CarruselPreguntas extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.2,
                                 ),
+                              ),
+                              Text(
+                                '${'\n\nSustentación agente: \n\n' + pregunta.substantiation}',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                              Text(
+                                '${'\n\nUpgraded: \n\n' + pregunta.date.toString()}',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.2,
+                                ),
                               )
                             ],
                           ),

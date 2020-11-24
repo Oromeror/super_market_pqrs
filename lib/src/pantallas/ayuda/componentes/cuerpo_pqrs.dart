@@ -215,12 +215,10 @@ class CuerpoPqrs extends StatelessWidget {
         stream: bloc.helpFormValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return Container(
-            child: BotonRedondeado(
-                text: "ENVIAR",
-                press: snapshot.hasData
-                    ? () => _generarPqrs(bloc, context)
-                    : null),
-          );
+              child: BotonRedondeado(
+            text: "ENVIAR",
+            press: () => _generarPqrs(bloc, context),
+          ));
         });
   }
 

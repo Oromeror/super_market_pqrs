@@ -14,12 +14,13 @@ List<Pqrs> preguntas = [
       comments: '¿Cuando llegará mi pedido?',
       attachments: null,
       status: 'Nuevo',
-      substantiation: 'Sin comentarios aún.'),
+      substantiation: 'Su solicitud está en proceso.'),
   Pqrs(
       number: 2,
       date: new DateTime.now(),
       type: 'Pregunta',
-      comments: '¿Cuando llegará mi pedido 2.0?',
+      comments:
+          '¿Cómo funciona la política de reembolsos?, quisiera cancelar mi pedido',
       attachments: null,
       status: 'Nuevo',
       substantiation: 'Sin comentarios aún.'),

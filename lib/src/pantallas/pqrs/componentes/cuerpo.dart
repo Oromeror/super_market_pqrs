@@ -15,7 +15,7 @@ class Cuerpo extends State<PqrsUsuario> {
     FontAwesomeIcons.meh,
     FontAwesomeIcons.frown,
     FontAwesomeIcons.smile,
-    FontAwesomeIcons.commentSlash,
+    //FontAwesomeIcons.commentSlash,
   ];
 
   Widget _buildIcon(int index) {
