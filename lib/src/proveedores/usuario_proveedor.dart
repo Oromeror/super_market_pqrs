@@ -4,12 +4,12 @@ import 'package:http/http.dart' as http;
 
 class UsuarioProveedor {
   //final String _token = 'c5444adb729b9819ed91d3a7dc4b9117af9e48ac'; // Clave
-  final String local_url = 'http://10.0.2.2:8000';
-  final String prod_url = 'https://pqrsbosque.com';
+  final String localUrl = 'http://10.0.2.2:8000';
+  final String prodUrl = 'https://pqrsbosque.com';
 
   Future<Map<String, dynamic>> login(
       String identificacion, String password) async {
-    final url = '$local_url/cliente/login/';
+    final url = '$prodUrl/cliente/login/';
     print(url);
     final loginData = {'identificacion': identificacion, 'password': password};
 
@@ -42,7 +42,7 @@ class UsuarioProveedor {
       String telefono,
       String identificacion,
       String tipoIdentificacion) async {
-    final url = '$local_url/cliente/crear/';
+    final url = '$prodUrl/cliente/crear/';
     final newUserData = {
       'usernames': usernames,
       'first_name': firstName,
