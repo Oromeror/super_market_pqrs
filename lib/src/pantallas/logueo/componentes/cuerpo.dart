@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:super_market_pqrs/constantes.dart';
-import 'package:super_market_pqrs/src/bloc/login_bloc.dart';
+import 'package:super_market_pqrs/src/bloc/general_bloc.dart';
 import 'package:super_market_pqrs/src/bloc/provider.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_contrasenha.dart';
@@ -75,7 +75,7 @@ class Cuerpo extends StatelessWidget {
     );
   }
 
-  Widget _crearIdentificacion(LoginBloc bloc) {
+  Widget _crearIdentificacion(GeneralBloc bloc) {
     return StreamBuilder(
       stream: bloc.identificacionStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -94,7 +94,7 @@ class Cuerpo extends StatelessWidget {
     );
   }
 
-  Widget _crearPassword(LoginBloc bloc) {
+  Widget _crearPassword(GeneralBloc bloc) {
     return StreamBuilder(
       stream: bloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -107,7 +107,7 @@ class Cuerpo extends StatelessWidget {
     );
   }
 
-  Widget _crearBoton(LoginBloc bloc) {
+  Widget _crearBoton(GeneralBloc bloc) {
     return StreamBuilder(
       stream: bloc.loginFormValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -120,7 +120,7 @@ class Cuerpo extends StatelessWidget {
     );
   }
 
-  _login(LoginBloc bloc, BuildContext context) {
+  _login(GeneralBloc bloc, BuildContext context) {
     usuarioProveedor.login(bloc.identificacion, bloc.password);
     Navigator.pushReplacementNamed(context, 'logued');
     print('================');

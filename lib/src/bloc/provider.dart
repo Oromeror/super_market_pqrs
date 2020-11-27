@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:super_market_pqrs/src/bloc/login_bloc.dart';
-export 'package:super_market_pqrs/src/bloc/login_bloc.dart';
+
+import 'package:super_market_pqrs/src/bloc/general_bloc.dart';
+export 'package:super_market_pqrs/src/bloc/general_bloc.dart';
 
 class Provider extends InheritedWidget {
   static Provider _instancia;
@@ -15,7 +16,7 @@ class Provider extends InheritedWidget {
 
   Provider._internal({Key key, Widget child}) : super(key: key, child: child);
 
-  final loginBloc = LoginBloc();
+  final loginBloc = GeneralBloc();
 
   // Provider({ Key key, Widget child })
   //   : super(key: key, child: child );
@@ -23,7 +24,7 @@ class Provider extends InheritedWidget {
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
-  static LoginBloc of(BuildContext context) {
+  static GeneralBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
   }
 }

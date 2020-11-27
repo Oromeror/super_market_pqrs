@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:super_market_pqrs/constantes.dart';
-import 'package:super_market_pqrs/src/bloc/login_bloc.dart';
+import 'package:super_market_pqrs/src/bloc/general_bloc.dart';
 import 'package:super_market_pqrs/src/bloc/provider.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_entrada.dart';
@@ -9,11 +9,11 @@ import 'package:super_market_pqrs/src/pantallas/ayuda/arch_adjunto.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/campo_redondeado_tipo_id.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/campo_redondeado_tipo_pqr.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/fondo.dart';
-import 'package:super_market_pqrs/src/pantallas/pqrs/logueado.dart';
 import 'package:super_market_pqrs/src/proveedores/pqrs_proveedor.dart';
 
 class CuerpoPqrs extends StatelessWidget {
   final pqrsProveedor = new PqrsProveedor();
+  final archivo = new Adjunto();
 
   CuerpoPqrs({
     Key key,
@@ -67,21 +67,21 @@ class CuerpoPqrs extends StatelessWidget {
     );
   }
 
-  Widget crearTipoRadicado(LoginBloc bloc) {
+  Widget crearTipoRadicado(GeneralBloc bloc) {
     return StreamBuilder(
       stream: bloc.tipoRadStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           child: CampoRedondeadoTipoPqr(
             hintText: 'Tipo de radicado',
-            onChanged: (value) => bloc.changeTipoRadicado(value.toString()),
+            onChanged: (value) => bloc.changeTipoRadicado(value.nombre),
           ),
         );
       },
     );
   }
 
-  crearTipoIdentificacion(LoginBloc bloc) {
+  crearTipoIdentificacion(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.tipoIdStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -94,7 +94,7 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearCampoIdentificacion(LoginBloc bloc) {
+  crearCampoIdentificacion(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.identificacionStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -113,7 +113,7 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearCampoNombre(LoginBloc bloc) {
+  crearCampoNombre(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.firstNameStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -130,7 +130,7 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearCampoCorreo(LoginBloc bloc) {
+  crearCampoCorreo(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.emailStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -156,7 +156,7 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearCampoTelefono(LoginBloc bloc) {
+  crearCampoTelefono(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.telefonoStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -174,7 +174,7 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearCampoComentario(LoginBloc bloc) {
+  crearCampoComentario(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.comentarioStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -192,7 +192,7 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearBotonAdjuntar(LoginBloc bloc) {
+  crearBotonAdjuntar(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.archAdjuntoStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -202,7 +202,7 @@ class CuerpoPqrs extends StatelessWidget {
               press: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Adjunto()),
+                  MaterialPageRoute(builder: (context) => this.archivo),
                 );
               },
             ),
@@ -210,7 +210,12 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  crearBotonEnviar(LoginBloc bloc) {
+  actualizarStreamArchAdjunto(GeneralBloc bloc) {
+    print(this.archivo.cuerpo.codificarArchivo());
+    return bloc.archAdjunto = this.archivo.cuerpo.codificarArchivo();
+  }
+
+  crearBotonEnviar(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.helpFormValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -222,7 +227,8 @@ class CuerpoPqrs extends StatelessWidget {
         });
   }
 
-  _generarPqrs(LoginBloc bloc, BuildContext context) {
+  _generarPqrs(GeneralBloc bloc, BuildContext context) {
+    actualizarStreamArchAdjunto(bloc);
     pqrsProveedor.generarPqrs(bloc.identificacion, bloc.tipoRadicado,
         bloc.comentario, bloc.archAdjunto);
     print('================');
@@ -232,7 +238,8 @@ class CuerpoPqrs extends StatelessWidget {
     print('Anexo: ${bloc.archAdjunto}');
     print('================');
 
-    mostrarAlertDialog(context, 'Pqrs creada.');
+    mostrarAlertDialog(context,
+        'Su solicitud ha sido creada y será atendida por uno de nuestros agentes.');
   }
 
   mostrarAlertDialog(BuildContext context, String mensaje) {
@@ -240,10 +247,7 @@ class CuerpoPqrs extends StatelessWidget {
     Widget okButton = FlatButton(
       child: Text("OK", style: TextStyle(color: kColorPrimario, fontSize: 15)),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => UsuarioLogueado()),
-        );
+        Navigator.pushReplacementNamed(context, 'logued');
       },
     );
 

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:super_market_pqrs/constantes.dart';
 
-import 'package:super_market_pqrs/src/bloc/login_bloc.dart';
+import 'package:super_market_pqrs/src/bloc/general_bloc.dart';
 import 'package:super_market_pqrs/src/bloc/provider.dart';
 import 'package:super_market_pqrs/src/componentes/boton_redondeado.dart';
 import 'package:super_market_pqrs/src/componentes/campo_redondeado_entrada.dart';
 import 'package:super_market_pqrs/src/componentes/ya_tengo_una_cuenta_verificada.dart';
 import 'package:super_market_pqrs/src/pantallas/ayuda/componentes/campo_redondeado_tipo_id.dart';
 import 'package:super_market_pqrs/src/pantallas/logueo/pantalla_login.dart';
+import 'package:super_market_pqrs/src/pantallas/principal/pantalla_principal.dart';
 import 'package:super_market_pqrs/src/pantallas/registro/componentes/divisor_o.dart';
 import 'package:super_market_pqrs/src/pantallas/registro/componentes/fondo.dart';
 import 'package:super_market_pqrs/src/pantallas/registro/componentes/icono_social.dart';
@@ -62,7 +63,7 @@ class Cuerpo extends StatelessWidget {
           crearCampoIdentificacion(bloc),
           crearCampoTipoId(bloc),
           crearBotonRegistrar(bloc),
-          SizedBox(height: size.height * 0.03),
+          SizedBox(height: size.height * 0.001),
           YaTengoUnaCuentaVerificada(
             login: false,
             press: () {
@@ -99,7 +100,7 @@ class Cuerpo extends StatelessWidget {
     );
   }
 
-  crearCampoUsername(LoginBloc bloc) {
+  crearCampoUsername(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.usernamesStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -112,7 +113,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearCampoNombres(LoginBloc bloc) {
+  crearCampoNombres(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.firstNameStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -126,7 +127,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearCampoApellidos(LoginBloc bloc) {
+  crearCampoApellidos(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.lastNameStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -140,7 +141,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearCampoCorreo(LoginBloc bloc) {
+  crearCampoCorreo(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.emailStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -154,7 +155,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearCampoTelefono(LoginBloc bloc) {
+  crearCampoTelefono(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.telefonoStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -168,7 +169,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearCampoIdentificacion(LoginBloc bloc) {
+  crearCampoIdentificacion(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.identificacionStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -182,7 +183,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearCampoTipoId(LoginBloc bloc) {
+  crearCampoTipoId(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.tipoIdStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -195,7 +196,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  crearBotonRegistrar(LoginBloc bloc) {
+  crearBotonRegistrar(GeneralBloc bloc) {
     return StreamBuilder(
         stream: bloc.registrarFormValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -209,7 +210,7 @@ class Cuerpo extends StatelessWidget {
         });
   }
 
-  _generarRegistro(LoginBloc bloc, BuildContext context) {
+  _generarRegistro(GeneralBloc bloc, BuildContext context) {
     usuarioProveedor.nuevoUsuario(
         bloc.usernames,
         bloc.firstName,
@@ -239,7 +240,7 @@ class Cuerpo extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PantallaLogin()),
+          MaterialPageRoute(builder: (context) => PantallaPrincipal()),
         );
       },
     );

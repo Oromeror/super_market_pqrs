@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:super_market_pqrs/src/bloc/validadores.dart';
 
-class LoginBloc with Validadores {
+class GeneralBloc with Validadores {
   final _usernamesController = BehaviorSubject<String>();
   final _firstNameController = BehaviorSubject<String>();
   final _lastNameController = BehaviorSubject<String>();
@@ -88,6 +88,10 @@ class LoginBloc with Validadores {
   String get password => _passwordController.value;
   String get archAdjunto => _archivoAdjunto.value;
   String get comentario => _comentarioController.value;
+
+  set archAdjunto(String arcAd) {
+    _archivoAdjunto.value = arcAd;
+  }
 
   dispose() {
     _usernamesController?.close();
