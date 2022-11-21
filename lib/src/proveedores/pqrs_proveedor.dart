@@ -4,12 +4,12 @@ import 'package:http/http.dart' as http;
 
 class PqrsProveedor {
   //final String _token = 'c5444adb729b9819ed91d3a7dc4b9117af9e48ac'; // Clave
-  //final String localUrl = 'http://10.0.2.2:8000';
+  final String localUrl = 'http://10.0.2.2:8000';
   final String prodUrl = 'https://pqrsbosque.com';
 
   Future<Map<String, dynamic>> generarPqrs(String identificacion,
       String tipoRadicado, String comentario, String anexo) async {
-    final url = '$prodUrl/pqr/crear/';
+    final url = '$localUrl/pqr/crear/';
     final pqrsData = {
       'identificacion': identificacion,
       'tipo_radicado': tipoRadicado,

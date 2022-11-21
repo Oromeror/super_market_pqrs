@@ -9,7 +9,7 @@ class UsuarioProveedor {
 
   Future<Map<String, dynamic>> login(
       String identificacion, String password) async {
-    final url = '$prodUrl/cliente/login/';
+    final url = '$localUrl/cliente/login/';
     print(url);
     final loginData = {'identificacion': identificacion, 'password': password};
 
@@ -42,7 +42,7 @@ class UsuarioProveedor {
       String telefono,
       String identificacion,
       String tipoIdentificacion) async {
-    final url = '$prodUrl/cliente/crear/';
+    final url = '$localUrl/cliente/crear/';
     final newUserData = {
       'usernames': usernames,
       'first_name': firstName,
